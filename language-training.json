@@ -1,0 +1,10 @@
+[
+  {"id":"conversational_physical","description":"Everyday wording for a general appointment","turns":["Could you arrange a physical with Rao on the day after today?","Name: Maya Chen, DOB: 1990-04-12","1","yes"],"expect":{"bookings":1,"doctor":"Dr Rao","day":"2026-10-08"}},
+  {"id":"spelled_clock","description":"A spelled-out clock time","turns":["A general visit with Dr Patel tomorrow at half past ten in the morning, IST.","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"doctor":"Dr Patel","time":"10:30","day":"2026-10-08"}},
+  {"id":"relative_two_days","description":"Resolve a relative date without using the wall clock","turns":["Dermatology with Dr Lin the day after tomorrow, please.","Name: Maya Chen, DOB: 1990-04-12","1","yes"],"expect":{"bookings":1,"day":"2026-10-09","doctor":"Dr Lin"}},
+  {"id":"natural_selection","description":"Select an offer in conversational language","turns":["General tomorrow with Dr Rao","Name: Maya Chen, DOB: 1990-04-12","The ten thirty appointment works for me.","yes"],"expect":{"bookings":1,"time":"10:30"}},
+  {"id":"correction_in_sentence","description":"A correction with assent must create a new preview","turns":["General tomorrow with Dr Rao","Name: Maya Chen, DOB: 1990-04-12","1","Yes, although Friday would suit me better than Thursday.","yes"],"expect":{"bookings":0}},
+  {"id":"indirect_preference","description":"Understand a soft preference expressed without prefer","turns":["General with Rao tomorrow. An afternoon visit would work best, but I can be flexible.","Name: Maya Chen, DOB: 1990-04-12","1","yes"],"expect":{"bookings":1,"hour_min":12,"preference":true}},
+  {"id":"ambiguous_assent","description":"Ambiguous assent must not authorize a booking","turns":["General tomorrow with Dr Rao","Name: Maya Chen, DOB: 1990-04-12","1","I suppose that might work, let me think."],"expect":{"bookings":0}},
+  {"id":"unsupported_specialty","description":"Do not silently substitute an unsupported specialty","turns":["I need to see an eye specialist tomorrow.","Name: Maya Chen, DOB: 1990-04-12","1","yes"],"expect":{"bookings":0}}
+]

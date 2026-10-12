@@ -1,0 +1,15 @@
+[
+  {
+    "attempt": 1,
+    "accepted_structure": true,
+    "policy": {
+      "honor_soft_preferences": true,
+      "read_retries": 1,
+      "interpretation_notes": "",
+      "version": "a24be3b40e56"
+    },
+    "training_score": 100.0,
+    "regressions": [],
+    "remaining_failures": []
+  }
+]

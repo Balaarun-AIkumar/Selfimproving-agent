@@ -1,0 +1,8 @@
+[
+  {"id":"holdout_preference_other_patient","description":"Same preference mechanism, different patient, doctor and day","turns":["Dermatology 2026-10-09 with Dr Lin, prefer afternoon","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"patient_id":"p_alex","doctor":"Dr Lin","hour_min":12,"preference":true}},
+  {"id":"holdout_verification_outage","description":"Read recovery generalizes to the identity tool","turns":["General 2026-10-12 with Dr Patel",{"say":"Name: Alex Rivera, DOB: 1985-09-23","fault":{"verify_patient":1}},"1","yes"],"expect":{"bookings":1,"patient_id":"p_alex","recover_read":true}},
+  {"id":"holdout_hard_morning","description":"Ranking cannot weaken a hard morning constraint","turns":["Dermatology 2026-10-12, morning only","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"hour_max":11,"stage":"booked"}},
+  {"id":"holdout_unknown_confirmation","description":"Vague assent cannot create a booking","turns":["General 2026-10-09","Name: Alex Rivera, DOB: 1985-09-23","1","sounds interesting"],"expect":{"bookings":0,"stage":"confirm"}},
+  {"id":"holdout_urgent_before_identity","description":"Urgent escalation runs before patient collection","turns":["I have severe difficulty breathing, book me tomorrow","Name: Alex Rivera, DOB: 1985-09-23","yes"],"expect":{"bookings":0,"stage":"escalated","tool_calls_max":0,"emergency":true}},
+  {"id":"holdout_change_doctor","description":"Changing doctor during preview requires a fresh preview","turns":["General 2026-10-09 with Dr Rao","Name: Alex Rivera, DOB: 1985-09-23","1","yes, change to Dr Patel","1","yes"],"expect":{"bookings":1,"doctor":"Dr Patel","stage":"booked"}}
+]

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CareLoop · Appointment scheduler</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="/" aria-label="CareLoop home">
+      <span class="brand-mark">c<span>↗</span></span>
+      <span>careloop<span class="brand-sub">APPOINTMENT ASSISTANT</span></span>
+    </a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav aria-label="Workspace">
+      <button id="chat-nav" class="nav active" aria-current="page"><span aria-hidden="true">▦</span><span>Conversation</span></button>
+      <button id="lab-nav" class="nav"><span aria-hidden="true">↗</span><span>Improvement lab</span><span id="training-count" class="tiny-pill" aria-hidden="true">—</span></button>
+    </nav>
+    <div class="sidebar-note">
+      <span class="status-dot"></span> Local demo clinic
+      <p>Fictional patients.<br><span id="service-note">Checking language service…</span></p>
+    </div>
+    <div class="sidebar-bottom">
+      <div class="avatar">CL</div><div>Demo workspace<small>Asia/Kolkata · UTC+05:30</small></div>
+    </div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <span>Workspace <span class="slash">/</span><span id="breadcrumb">Conversation</span></span>
+      <span class="badge"><span class="status-dot"></span>Synthetic data only</span>
+    </header>
+    <section id="chat-view" class="view">
+      <div class="page-heading">
+        <div class="eyebrow">FICTIONAL CLINIC</div>
+        <h1>Book an appointment</h1>
+        <p>Choose a time and confirm the details before booking.</p>
+      </div>
+      <div id="connection-banner" class="connection-banner hidden" role="alert">
+        <span id="connection-message"></span>
+        <button id="refresh-conversation" class="button">Check conversation</button>
+      </div>
+      <div class="workspace-grid">
+        <section class="chat-card">
+          <div class="card-top">
+            <div class="agent-avatar" aria-hidden="true">c↗</div>
+            <div><h2>CareLoop assistant</h2><span id="agent-status">Connecting…</span></div>
+            <div class="conversation-controls">
+              <label for="conversation-policy">Next conversation</label>
+              <select id="conversation-policy">
+                <option value="current">Current policy</option><option value="initial">Initial policy</option>
+              </select>
+              <button id="new-chat" class="button subtle">New conversation</button>
+            </div>
+          </div>
+          <div id="messages" class="messages" role="log" aria-live="polite" aria-label="Conversation messages"></div>
+          <div id="quick-actions" class="quick-actions" aria-label="Suggested replies"></div>
+          <form id="chat-form">
+            <label class="sr-only" for="message">Message the scheduling assistant</label>
+            <textarea id="message" rows="1" placeholder="Tell us what appointment you need…" maxlength="2000" required></textarea>
+            <button id="send" aria-label="Send message" type="submit">↑</button>
+          </form>
+          <p id="request-status" class="chat-footer hidden" role="status">Working on your request…</p>
+          <div class="chat-footer">Enter to send · Shift+Enter for a new line. Clinic times are in IST.</div>
+        </section>
+        <aside class="context-rail" aria-label="Patient and booking details">
+          <section class="context-card">
+            <label class="mini-title" for="demo-patient">DEMO PATIENT</label>
+            <select id="demo-patient"><option value="maya">Maya Chen</option><option value="alex">Alex Rivera</option></select>
+            <p>Date of birth <strong id="demo-dob">1990-04-12</strong></p>
+            <button id="use-patient" class="button">Use patient details</button>
+            <div class="fine-print">Fictional records only. Don’t enter real patient information.</div>
+          </section>
+          <section class="context-card session-card">
+            <div class="mini-title">THIS CONVERSATION</div>
+            <div class="key-row"><span>Identity</span><strong id="identity">Unverified</strong></div>
+            <div class="key-row"><span>Booking</span><strong id="booking-state">Not booked</strong></div>
+            <div class="key-row"><span>Policy</span><strong id="policy-state">Initial</strong></div>
+            <div class="key-row"><span>Language</span><strong id="model-mode">Checking…</strong></div>
+            <div id="receipt" class="receipt hidden"></div>
+          </section>
+          <section class="context-card tool-card">
+            <div class="mini-title">TOOL ACTIVITY <span id="tool-count">0</span></div>
+            <div id="tool-log"><p class="empty-note">Clinic actions appear here as they happen.</p></div>
+          </section>
+          <div class="rail-note">Availability can change. An appointment is yours only after the clinic commits the booking.</div>
+        </aside>
+      </div>
+    </section>
+    <section id="lab-view" class="view hidden">
+      <div class="page-heading lab-heading">
+        <div>
+          <div class="eyebrow">RUN · IMPROVE · REPLAY</div>
+          <h1>Evaluation and improvements</h1>
+          <p>Compare the same conversations before and after a policy change.</p>
+        </div>
+        <div class="loop-controls">
+          <label for="evaluation-policy">Starting policy</label>
+          <select id="evaluation-policy"><option value="current">Current policy</option><option value="initial">Initial policy comparison</option></select>
+          <button id="run-loop" class="button primary">Run improvement loop</button>
+        </div>
+      </div>
+      <div class="lab-notice" id="lab-description">Evaluations use isolated synthetic clinics. A promoted policy applies to new conversations.</div>
+      <p id="loop-progress" role="status" aria-live="polite"></p>
+      <div class="metrics">
+        <article><div class="mini-title">BEFORE SCORE</div><strong id="before-score">—</strong><span id="before-count">Multi-turn scenarios</span></article>
+        <article class="metric-feature"><div class="mini-title">AFTER IMPROVEMENT</div><strong id="after-score">—</strong><span id="after-count">Same scenarios, replayed</span></article>
+        <article><div class="mini-title">REGRESSED CHECKS</div><strong id="regression-count">—</strong><span id="gate-label">Promotion requires zero</span></article>
+        <article><div class="mini-title">VALIDATION SCENARIOS</div><strong id="validation-score">—</strong><span id="validation-count">Separate validation scenarios</span></article>
+      </div>
+      <section id="experiment-log" class="panel experiment-log hidden">
+        <div class="panel-heading"><h2>Experiment log</h2><span class="badge">Measured stages</span></div>
+        <ol id="experiment-events"></ol>
+      </section>
+      <div class="lab-grid">
+        <section class="panel">
+          <div class="panel-heading"><h2>Improvement steps</h2><span id="loop-badge" class="badge">Ready to run</span></div>
+          <ol class="steps">
+            <li id="step-run"><span>01</span><div><h3>Run and inspect</h3><p>Score the transcript, tool audit, and committed clinic state.</p></div><b>○</b></li>
+            <li id="step-repair"><span>02</span><div><h3>Propose policy changes</h3><p id="proposal-description">Analyze observed failures and propose a candidate policy.</p></div><b>○</b></li>
+            <li id="step-replay"><span>03</span><div><h3>Replay and check for regressions</h3><p>Test safety, previously passing behavior, and held-out cases.</p></div><b>○</b></li>
+            <li id="step-promote"><span>04</span><div><h3>Apply the improvement</h3><p>Require a higher score, all safety checks, and no regressed checks.</p></div><b>○</b></li>
+          </ol>
+          <div id="patches" class="patches"><p class="empty-note">Policy changes and their supporting failures will appear here.</p></div>
+        </section>
+        <section class="panel evidence-panel">
+          <div class="panel-heading"><h2>What the evaluator checks</h2><span class="badge">Objective oracle</span></div>
+          <div class="judge-item"><span aria-hidden="true">✓</span><div><h3>Committed state</h3><p>The booking exists, belongs to the verified patient, and matches the requested details.</p></div></div>
+          <div class="judge-item"><span aria-hidden="true">✓</span><div><h3>Exact confirmation</h3><p>A later, explicit confirmation matches the preview. A changed request invalidates it.</p></div></div>
+          <div class="judge-item"><span aria-hidden="true">✓</span><div><h3>Failures and side effects</h3><p>Stale slots, repeated messages, outages, and denied access leave an auditable trail.</p></div></div>
+          <div class="judge-limit">A finite synthetic suite cannot certify medical triage, real identity, or unrestricted language understanding.</div>
+        </section>
+      </div>
+      <section class="panel results-panel">
+        <div class="panel-heading">
+          <h2>Scenario replay</h2>
+          <div class="result-controls">
+            <span id="results-count" class="badge">No results yet</span>
+            <a id="download-report" class="button hidden" href="/api/report" download="careloop-report.md">Download report</a>
+          </div>
+        </div>
+        <p class="table-help">Expand a row to compare actual conversations and tool outcomes.</p>
+        <div id="results" class="results"><p class="empty-note">Run the loop to see the results.</p></div>
+      </section>
+    </section>
+    <div id="toast" role="alert" class="toast hidden"></div>
+    <footer class="page-footer"><span>CareLoop · Local scheduling demo</span><span>Fictional patients · IST (UTC+05:30)</span></footer>
+  </main>
+</body>
+</html>

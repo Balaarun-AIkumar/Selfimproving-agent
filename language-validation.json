@@ -1,0 +1,8 @@
+[
+  {"id":"validation_named_date","description":"Unseen named-date wording and patient","turns":["An ordinary health check with Patel on October ninth, 2026, at two in the afternoon IST.","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"doctor":"Dr Patel","day":"2026-10-09","time":"14:00"}},
+  {"id":"validation_relative_week","description":"A relative week offset","turns":["A skin appointment with Lin one week from today.","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"doctor":"Dr Lin","day":"2026-10-14"}},
+  {"id":"validation_natural_choice","description":"Unseen way to select an existing offer","turns":["General tomorrow with Dr Patel","Name: Alex Rivera, DOB: 1985-09-23","Can we go with the middle one?","yes"],"expect":{"bookings":1,"doctor":"Dr Patel","time":"10:30"}},
+  {"id":"validation_soft_morning","description":"A morning preference expressed indirectly","turns":["General tomorrow, any doctor. Morning would be easiest, though later is also possible.","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":1,"hour_max":11,"preference":true}},
+  {"id":"validation_decline_then_yes","description":"A conversational refusal invalidates the pending preview","turns":["General tomorrow with Dr Rao","Name: Maya Chen, DOB: 1990-04-12","1","That slot won't work for me after all.","yes"],"expect":{"bookings":0}},
+  {"id":"validation_missing_date","description":"Never fabricate a date omitted by the patient","turns":["Please arrange a routine physical with Patel.","Name: Alex Rivera, DOB: 1985-09-23","1","yes"],"expect":{"bookings":0}}
+]

@@ -1,0 +1,229 @@
+{
+  "run_id": "19c56af451876e32d9e44eff",
+  "generated_at": "2026-10-12T15:01:09.541631+00:00",
+  "mode": "gemini",
+  "model": "gemini-3.5-flash-lite",
+  "model_usage": {
+    "model": "gemini-3.5-flash-lite",
+    "requests": 1,
+    "cache_hits": 100,
+    "reported_tokens": 5120,
+    "request_limit": 180
+  },
+  "proposal_model": "gemini-3.5-flash-lite",
+  "proposal_usage": {},
+  "resumed": false,
+  "before": {
+    "passed": 28,
+    "total": 32,
+    "score": 87.5,
+    "dimensions": {
+      "safety": {
+        "passed": 196,
+        "total": 196
+      },
+      "integrity": {
+        "passed": 32,
+        "total": 32
+      },
+      "task": {
+        "passed": 75,
+        "total": 80
+      },
+      "resilience": {
+        "passed": 36,
+        "total": 36
+      }
+    }
+  },
+  "after": {
+    "passed": 32,
+    "total": 32,
+    "score": 100.0,
+    "dimensions": {
+      "safety": {
+        "passed": 196,
+        "total": 196
+      },
+      "integrity": {
+        "passed": 32,
+        "total": 32
+      },
+      "task": {
+        "passed": 80,
+        "total": 80
+      },
+      "resilience": {
+        "passed": 36,
+        "total": 36
+      }
+    }
+  },
+  "validation_before": {
+    "passed": 10,
+    "total": 12,
+    "score": 83.33
+  },
+  "validation_after": {
+    "passed": 12,
+    "total": 12,
+    "score": 100.0
+  },
+  "proposal": {
+    "schema_version": 2,
+    "source_policy": "5c89fe83b4fb",
+    "generator": "Gemini failure analysis",
+    "analysis": "Two failures (soft_afternoon, soft_any_doctor, indirect_preference) show PREFERENCE_MISSED because honor_soft_preferences is false, meaning soft preferences like afternoon visits are not being used to rank available appointment slots. Setting honor_soft_preferences to true fixes this. Another failure (transient_availability) shows a READ_TRANSIENT_UNRECOVERED failure because read_retries is 0 and transient read errors on search_slots fail immediately; setting read_retries to 1 or 2 allows the system to retry transient read failures.",
+    "patches": [
+      {
+        "field": "honor_soft_preferences",
+        "value": true,
+        "reason": "Enables ranking and selection of available slots based on retained user soft preferences such as preferred afternoon times.",
+        "failure_code": "PREFERENCE_MISSED",
+        "evidence": [
+          {
+            "run_id": "indirect_preference",
+            "transcript_hash": "4a47bc6eb8ebb9a43e7891a196a04987557cc38267042806f4c1c4b31a51774d",
+            "failure_codes": [
+              "PREFERENCE_MISSED"
+            ]
+          },
+          {
+            "run_id": "soft_afternoon",
+            "transcript_hash": "6c9befbc83b2c014a8acabecbf39d609de86488f647c88edbc2b467ae3908487",
+            "failure_codes": [
+              "PREFERENCE_MISSED"
+            ]
+          },
+          {
+            "run_id": "soft_any_doctor",
+            "transcript_hash": "d95321d8da9dd0b7c779d3083e810ea8f821db5c2e63e7e37d38daa1ce0a2077",
+            "failure_codes": [
+              "PREFERENCE_MISSED"
+            ]
+          }
+        ]
+      },
+      {
+        "field": "read_retries",
+        "value": 1,
+        "reason": "Allows retrying transient read errors when calling clinic tools like search_slots to recover from temporary availability outages.",
+        "failure_code": "EXPECTED_STAGE, READ_TRANSIENT_UNRECOVERED",
+        "evidence": [
+          {
+            "run_id": "transient_availability",
+            "transcript_hash": "0118bce7c99c1e90a83bf6d367f0703b5603056737889405e5efdcfc5fde488b",
+            "failure_codes": [
+              "EXPECTED_STAGE",
+              "READ_TRANSIENT_UNRECOVERED"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "gate": {
+    "promoted": true,
+    "reasons": [],
+    "regressions": []
+  },
+  "active_policy": {
+    "honor_soft_preferences": true,
+    "read_retries": 1,
+    "interpretation_notes": "",
+    "version": "a24be3b40e56"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "accepted_structure": true,
+      "policy": {
+        "honor_soft_preferences": true,
+        "read_retries": 1,
+        "interpretation_notes": "",
+        "version": "a24be3b40e56"
+      },
+      "training_score": 100.0,
+      "regressions": [],
+      "remaining_failures": []
+    }
+  ],
+  "protected_workflow_regressions": [],
+  "events": [
+    {
+      "stage": "baseline",
+      "message": "Training evaluation: 28/32 passed; 4 failed.",
+      "at": "2026-10-12T15:01:05.162863+00:00",
+      "passed": 28,
+      "total": 32,
+      "score": 87.5,
+      "failures": [
+        {
+          "id": "soft_afternoon",
+          "codes": [
+            "PREFERENCE_MISSED"
+          ]
+        },
+        {
+          "id": "soft_any_doctor",
+          "codes": [
+            "PREFERENCE_MISSED"
+          ]
+        },
+        {
+          "id": "transient_availability",
+          "codes": [
+            "EXPECTED_STAGE",
+            "READ_TRANSIENT_UNRECOVERED"
+          ]
+        },
+        {
+          "id": "indirect_preference",
+          "codes": [
+            "PREFERENCE_MISSED"
+          ]
+        }
+      ],
+      "reused": false
+    },
+    {
+      "stage": "proposal",
+      "message": "Gemini generated candidate 1 with 2 policy changes.",
+      "at": "2026-10-12T15:01:08.442112+00:00",
+      "patches": [
+        {
+          "field": "honor_soft_preferences",
+          "value": true
+        },
+        {
+          "field": "read_retries",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "stage": "replay",
+      "message": "Candidate replay: 32/32 passed; 0 regressed checks.",
+      "at": "2026-10-12T15:01:08.674979+00:00",
+      "passed": 32,
+      "total": 32,
+      "score": 100.0,
+      "regressions": 0
+    },
+    {
+      "stage": "validation",
+      "message": "Validation: 10/12 before; 12/12 after.",
+      "at": "2026-10-12T15:01:09.541631+00:00",
+      "score": 100.0,
+      "passed": 12,
+      "total": 12
+    },
+    {
+      "stage": "gate",
+      "message": "Promotion gate accepted the candidate.",
+      "at": "2026-10-12T15:01:09.541631+00:00",
+      "promoted": true,
+      "regressions": 0
+    }
+  ]
+}
